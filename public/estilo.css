@@ -1,0 +1,62 @@
+html, body{
+    margin:0;
+    padding:0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#div-topo{
+    background-color:darkblue;
+    color: #ffffff;
+    width:100%;
+    position:relative;
+    top:0; left:0;
+    height:50px;
+    text-align:center;
+    padding-top:20px;
+}
+
+#div-menu{
+    position:absolute;
+    top:70px;
+    left:0px;
+    width:160px;
+    height:200px;
+    z-index:9999;
+}
+
+.btn-menu{
+    width:160px;
+    
+    height:50;
+    background-color: #dddddd;
+    font-size:16px;
+}
+
+#div-malha{
+    position:absolute;
+    top:70px;
+    left:0px;
+    width:100%;
+    bottom:0;
+    
+}
+
+.div-no{
+    position:absolute;
+    width:50px;
+    height:50px;
+    
+    border-radius: 25px;
+}
+
+.no-comum{
+    background-color: cornflowerblue;
+}
+
+.no-inicio{
+    background-color: green;
+}
+
+.no-final{
+    background-color: red;
+}
