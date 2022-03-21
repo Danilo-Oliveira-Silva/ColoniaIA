@@ -1,5 +1,8 @@
 var socket;
 var numNos = 0;
+var noIdSel = [];
+var linhas = [];
+
 
 
 
@@ -35,11 +38,59 @@ function AddNo(tipo){
         left = 800;
     }
 
-    var html = '<div class="div-no no-'+tipo+'" id="div-no-'+noId+'" style="top:'+top+'px; left: '+left+'px;"></div>';
+    var html = '<div class="div-no no-'+tipo+' no-id-'+noId+'" data-meuid='+noId+' id="div-no-'+noId+'" style="top:'+top+'px; left: '+left+'px;" onmousedown="clickNo(this, event.button);" oncontextmenu="return false;"></div>';
     $("#div-malha").append(html);
-    $("#div-no-"+noId).draggable();
+    $("#div-no-"+noId).draggable({
+        drag:function(){
+            linhas.forEach(function(linha){
+                linha.position();
+            });
+            }
+        });
     
-    socket.emit("addNo", noId, tipo);
+    //socket.emit("addNo", noId, tipo);
     numNos = noId;
 
+}
+
+function clickNo(obj, evento){
+    
+    
+    if(evento == 2)
+    {
+        noIdSel.push(obj.dataset.meuid);
+        if(noIdSel.length == 2)
+        {
+            //procura se existe a conexão
+            var existe = false;
+            var index = -1;
+            var indexRemove = -1;
+            linhas.forEach(function(linha){
+                index++;
+                if(linha.start.id == "div-no-"+noIdSel[0] && linha.end.id == "div-no-"+noIdSel[1])
+                {
+                    existe = true;
+                    indexRemove = index;
+                    linha.hide();
+                }
+            }) 
+
+            if(existe == true){
+                linhas.splice(indexRemove, 1);
+            }
+            else {
+               var noA = document.getElementById('div-no-'+noIdSel[0]);
+                var noB = document.getElementById('div-no-'+noIdSel[1]);
+                
+                var linha = new LeaderLine(
+                    noA,
+                    noB, 
+                    {color:"blue", size:3}
+                );
+                linhas.push(linha);
+            }
+
+            noIdSel = [];
+        }
+    }
 }
