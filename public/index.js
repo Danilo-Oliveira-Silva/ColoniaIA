@@ -94,3 +94,36 @@ function clickNo(obj, evento){
         }
     }
 }
+
+
+function Simular(){
+
+    var nos = [];
+    var conexoes = [];
+
+    $(".div-no").each(function(i){
+        console.log($(this));
+        var tipono = "comum";
+        if($(this).hasClass("no-inicio")){ tipono = "inicio"; }
+        if($(this).hasClass("no-final")){ tipono = "final"; }
+        var no = {
+            id: parseInt($(this).attr("id").replace("div-no-","")),
+            tipo: tipono
+        }
+        nos.push(no);
+    });
+
+    linhas.forEach(function(linha){
+        var conexao = {
+            id: linha._id,
+            inicio: parseInt(linha.start.id.replace("div-no-","")),
+            fim: parseInt(linha.end.id.replace("div-no-","")),
+        }
+        conexoes.push(conexao);
+    });
+
+    var nInd = parseInt($("#txtnInd").val());
+
+    socket.emit("simular", nInd, nos, conexoes);
+    
+}

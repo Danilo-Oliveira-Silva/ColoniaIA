@@ -60,3 +60,16 @@ html, body{
 .no-final{
     background-color: red;
 }
+
+.label{
+    float:left;
+}
+.inputText{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    font-size: 14px;
+    padding: 5px;
+    left: 0px;
+    width: 160px;
+}

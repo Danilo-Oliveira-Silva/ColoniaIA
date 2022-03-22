@@ -15,6 +15,10 @@ function listen(socket, Nos){
         Nos.push(novoNo);
         console.log(Nos);
     });
+
+    socket.on("simular", function(nInd, nos, conexoes){
+        
+    });
     
 
 }
