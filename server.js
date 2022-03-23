@@ -18,6 +18,7 @@ const RoomService = require('./RoomService')(io);
 var dListen;
 io.sockets.on('connection', function(socket){
     dListen = new RoomService.listen(socket, Nos);
+    
 });
 
 app.use(express.static(__dirname + '/public'));

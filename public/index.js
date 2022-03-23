@@ -15,6 +15,13 @@ $(function() {
 
     AddNo("inicio");
     AddNo("final");
+
+    socket.on("resAndar", function(pFormigas, pCanexoes){
+        console.log("formigas");
+        console.log(pFormigas);
+        console.log("Conexões");
+        console.log(pCanexoes);
+    });
 });
 
 function btnAddNo(){
@@ -102,7 +109,7 @@ function Simular(){
     var conexoes = [];
 
     $(".div-no").each(function(i){
-        console.log($(this));
+        
         var tipono = "comum";
         if($(this).hasClass("no-inicio")){ tipono = "inicio"; }
         if($(this).hasClass("no-final")){ tipono = "final"; }
@@ -118,6 +125,7 @@ function Simular(){
             id: linha._id,
             inicio: parseInt(linha.start.id.replace("div-no-","")),
             fim: parseInt(linha.end.id.replace("div-no-","")),
+            peso: 0
         }
         conexoes.push(conexao);
     });
@@ -126,4 +134,9 @@ function Simular(){
 
     socket.emit("simular", nInd, nos, conexoes);
     
+}
+
+
+function Andar(){
+    socket.emit("andar");
 }
