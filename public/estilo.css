@@ -45,8 +45,12 @@ html, body{
     position:absolute;
     width:50px;
     height:50px;
-    
     border-radius: 25px;
+    text-align: center;
+    color: #ffffff;
+    box-sizing: border-box;
+    font-weight: bold;
+    padding-top: 15px;
 }
 
 .no-comum{

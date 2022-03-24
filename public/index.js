@@ -16,11 +16,8 @@ $(function() {
     AddNo("inicio");
     AddNo("final");
 
-    socket.on("resAndar", function(pFormigas, pCanexoes){
-        console.log("formigas");
-        console.log(pFormigas);
-        console.log("Conexões");
-        console.log(pCanexoes);
+    socket.on("resAndar", function(pFormigas, pConexoes){
+        ProcessaTela(pFormigas, pConexoes);
     });
 });
 
@@ -45,7 +42,7 @@ function AddNo(tipo){
         left = 800;
     }
 
-    var html = '<div class="div-no no-'+tipo+' no-id-'+noId+'" data-meuid='+noId+' id="div-no-'+noId+'" style="top:'+top+'px; left: '+left+'px;" onmousedown="clickNo(this, event.button);" oncontextmenu="return false;"></div>';
+    var html = '<div class="div-no no-'+tipo+' no-id-'+noId+'" data-meuid='+noId+' id="div-no-'+noId+'" style="top:'+top+'px; left: '+left+'px;" onmousedown="clickNo(this, event.button);" oncontextmenu="return false;">0</div>';
     $("#div-malha").append(html);
     $("#div-no-"+noId).draggable({
         drag:function(){
@@ -139,4 +136,51 @@ function Simular(){
 
 function Andar(){
     socket.emit("andar");
+}
+
+function ProcessaTela(formigas, conexoes){
+
+    formigas.forEach(function(formiga){
+        $("#div-no-"+formiga.Local.id).html(parseInt($("#div-no-"+formiga.Local.id).html()) + 1);
+    });
+
+    var maiorPeso = 0;
+    var menorPeso = 9999999999;
+    conexoes.forEach(function(conexao){
+        if(conexao.peso > maiorPeso)
+        {
+            maiorPeso = conexao.peso;
+        }
+        if(conexao.peso < menorPeso)
+        {
+            menorPeso = conexao.peso;
+        }
+    });
+
+    console.log("maiorPeso "+maiorPeso);
+    console.log("menorPeso " + menorPeso);
+    console.log(conexoes);
+
+    
+    conexoes.forEach(function(conexao){
+        var valor = Math.trunc(510 * ((conexao.peso-menorPeso)/(maiorPeso - menorPeso)));
+        var r = 0;
+        var g = 255;
+        var b = 0;
+
+        if(valor <= 255)
+        {
+            r = valor;
+        }
+        else
+        {
+            r = 255;
+            g = 255-valor;
+        }
+        $("#leader-line-"+conexao.id+"-line-shape").css("stroke","rgb("+r+","+g+","+b+")");
+
+
+    });
+    Andar();
+
 }
